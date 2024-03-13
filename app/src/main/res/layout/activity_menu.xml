@@ -14,7 +14,7 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/btnBluetooth"
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_weight="1"
@@ -28,7 +28,7 @@
             android:elevation="4dp" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/btnSSDP"
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_weight="1"
@@ -51,7 +51,7 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/btn3"
+            android:id="@+id/btnWifiP2p"
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_weight="1"
@@ -65,7 +65,7 @@
             android:elevation="4dp" />
 
         <Button
-            android:id="@+id/btn4"
+            android:id="@+id/btnMDNS"
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:layout_weight="1"
