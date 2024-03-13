@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="deviceNameTextView" type="id" />
+    <item name="deviceAddressTextView" type="id" />
+    <item name="backButton" type="id" />
+    <item name="scanButton" type="id" />
+    <item name="deviceListView" type="id" />
+</resources>

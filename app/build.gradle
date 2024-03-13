@@ -1,0 +1,51 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'mg.app.myapplication'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "mg.app.myapplication"
+        minSdk 24
+        targetSdk 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'javax.jmdns:jmdns:3.4.1'
+    // https://mvnrepository.com/artifact/com.github.rosebud-iot/upnpdiscovery
+    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.google.android.material:material:1.11.0' // Adjust version as needed
+    implementation 'io.resourcepool:ssdp-client:2.5.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation 'com.guolindev.permissionx:permissionx:1.7.1'
+    implementation 'com.github.tejmagar:AndroidWiFiTools:1.0.2'
+    implementation 'com.github.tejmagar:AndroidNetworkTools:1.0.2alpha'
+}
