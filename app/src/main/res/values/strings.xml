@@ -7,7 +7,7 @@
     <string name="mac_address">MAC Address:</string>
     <string name="ip_address">IP Address:</string>
     <string name="imei">IMEI:</string>
-    <string name="model_nhardware">Model/Hardware:</string>
+    <string name="model_nhardware">Model/Vendor:</string>
     <string name="os">OS:</string>
     <string name="turn_on">Turn On</string>
     <string name="turn_off">Turn Off</string>

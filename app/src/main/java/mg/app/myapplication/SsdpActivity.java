@@ -1,6 +1,5 @@
 package mg.app.myapplication;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,10 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import mg.app.myapplication.SSDPServiceDiscovery;
 import tej.wifitoolslib.DevicesFinder;
 import tej.wifitoolslib.interfaces.OnDeviceFindListener;
 import tej.wifitoolslib.models.DeviceItem;
@@ -58,7 +55,8 @@ public class SsdpActivity extends AppCompatActivity {
 */
         Button startDiscoveryButton = findViewById(R.id.scanButton);
         Button stopDiscoveryButton = findViewById(R.id.stopButton);
-        VendorInfo.init(this);
+//        VendorInfo.init(this);
+
         DevicesFinder devicesFinder = new DevicesFinder(this, new OnDeviceFindListener() {
             @Override
             public void onStart() {
@@ -126,11 +124,12 @@ public class SsdpActivity extends AppCompatActivity {
         Intent intent = new Intent(this, DeviceDetailActivity.class);
         intent.putExtra(DeviceDetailActivity.EXTRA_IP_ADDRESS,device.getIpAddress());
         intent.putExtra(DeviceDetailActivity.EXTRA_DEVICE_NAME, device.getVendorName());
-        intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, device.getVendorName());
+        intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, device.getVendorName());
         intent.putExtra(DeviceDetailActivity.EXTRA_DEVICE_ADDRESS, device.getMacAddress());
         intent.putExtra(DeviceDetailActivity.EXTRA_MAC_ADDRESS, device.getMacAddress());
-        intent.putExtra(DeviceDetailActivity.UID, device.getVendorName());
-        intent.putExtra(DeviceDetailActivity.ALIAS,device.getVendorName());
+//        intent.putExtra(DeviceDetailActivity.UID, device.getVendorName());
+//        intent.putExtra(DeviceDetailActivity.ALIAS,device.getVendorName());
+
         startActivity(intent);
     }
 
