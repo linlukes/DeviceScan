@@ -35,6 +35,8 @@ public class BluetoothActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private ArrayAdapter<String> deviceListAdapter;
     private ArrayList<BluetoothDevice> bluetoothDevices;
+    private ArrayList<String> bluetoothDeviceTitles = new ArrayList<>();
+
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_SYSTEM_FILES = 1001; // Choose any unique value
     private EditText filterEditText;
     private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
@@ -79,7 +81,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
         // Initialize ListView and ArrayAdapter for displaying devices
         ListView deviceListView = findViewById(R.id.deviceListView);
-        deviceListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        deviceListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bluetoothDeviceTitles);
         deviceListView.setAdapter(deviceListAdapter);
 
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -173,8 +175,11 @@ public class BluetoothActivity extends AppCompatActivity {
         }
         // Start Bluetooth discovery
         if (bluetoothAdapter != null && bluetoothAdapter.isEnabled()) {
-            bluetoothAdapter.startDiscovery();
 
+            bluetoothDevices.clear();
+            bluetoothDeviceTitles.clear();
+
+            bluetoothAdapter.startDiscovery();
             Log.d("BroadcastReceiver", "startBluetoothDiscovery: " + bluetoothAdapter.isDiscovering());
          //   Toast.makeText(this, "Starting Bluetooth discovery.", Toast.LENGTH_SHORT).show();
         } else {
@@ -233,7 +238,8 @@ public class BluetoothActivity extends AppCompatActivity {
 //                    return;
 //                }
                 String deviceInfo = device.getName() + "\n" + device.getAddress();
-                deviceListAdapter.add(deviceInfo);
+                bluetoothDeviceTitles.add(deviceInfo);
+                deviceListAdapter.notifyDataSetChanged();
                 Toast.makeText(context, "Device found: " + deviceInfo, Toast.LENGTH_SHORT).show();
             }
         }
@@ -253,6 +259,25 @@ public class BluetoothActivity extends AppCompatActivity {
         intent.putExtra(DeviceDetailActivity.EXTRA_MAC_ADDRESS, bluetoothDevice.getAddress());
         intent.putExtra(DeviceDetailActivity.UID, Arrays.toString(bluetoothDevice.getUuids()));
         intent.putExtra(DeviceDetailActivity.ALIAS,bluetoothDevice.getAlias());
+
+        int bluetoothDeviceType = bluetoothDevice.getType();
+        switch (bluetoothDeviceType) {
+            case BluetoothDevice.DEVICE_TYPE_CLASSIC:
+                intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, "Classic Bluetooth Device");
+                break;
+            case BluetoothDevice.DEVICE_TYPE_DUAL:
+                intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, "Dual Bluetooth Device");
+                break;
+            case BluetoothDevice.DEVICE_TYPE_LE:
+                intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, "Bluetooth Low Energy (LE) Device");
+                break;
+            case BluetoothDevice.DEVICE_TYPE_UNKNOWN:
+                intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, "Unknown Device");
+                break;
+            default:
+                break;
+        }
+
         startActivity(intent);
     }
 
