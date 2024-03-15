@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothClass;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -37,7 +38,6 @@ public class BluetoothActivity extends AppCompatActivity {
     private ArrayList<BluetoothDevice> bluetoothDevices;
     private ArrayList<String> bluetoothDeviceTitles = new ArrayList<>();
 
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_SYSTEM_FILES = 1001; // Choose any unique value
     private EditText filterEditText;
     private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
 
@@ -259,6 +259,29 @@ public class BluetoothActivity extends AppCompatActivity {
         intent.putExtra(DeviceDetailActivity.EXTRA_MAC_ADDRESS, bluetoothDevice.getAddress());
         intent.putExtra(DeviceDetailActivity.UID, Arrays.toString(bluetoothDevice.getUuids()));
         intent.putExtra(DeviceDetailActivity.ALIAS,bluetoothDevice.getAlias());
+
+        int deviceClass = bluetoothDevice.getBluetoothClass().getMajorDeviceClass();
+        // Check device class
+        switch (deviceClass) {
+            case BluetoothClass.Device.Major.PHONE:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Smart Phone");
+                break;
+            case BluetoothClass.Device.Major.COMPUTER:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Computer/TV");
+                break;
+            case BluetoothClass.Device.Major.AUDIO_VIDEO:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Audio/Video Device");
+                break;
+            case BluetoothClass.Device.Major.HEALTH:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Health Device");
+                break;
+            case BluetoothClass.Device.Major.WEARABLE:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Wearable Device");
+                break;
+            default:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Unknown");
+                break;
+        }
 
         int bluetoothDeviceType = bluetoothDevice.getType();
         switch (bluetoothDeviceType) {
