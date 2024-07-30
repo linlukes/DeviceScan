@@ -121,12 +121,13 @@ public class MdnsActivity extends AppCompatActivity implements MdnsServiceDiscov
         Toast.makeText(this, device.toString(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, DeviceDetailActivity.class);
         intent.putExtra(DeviceDetailActivity.EXTRA_IP_ADDRESS,device.ipAddress);
-        intent.putExtra(DeviceDetailActivity.EXTRA_DEVICE_NAME, device.vendorName);
-        intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, device.vendorName);
+        intent.putExtra(DeviceDetailActivity.EXTRA_DEVICE_NAME, device.hostname);
+        intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, device.vendorName);
         intent.putExtra(DeviceDetailActivity.EXTRA_DEVICE_ADDRESS, device.macAddress);
         intent.putExtra(DeviceDetailActivity.EXTRA_MAC_ADDRESS, device.macAddress);
         intent.putExtra(DeviceDetailActivity.UID, device.vendorName);
         intent.putExtra(DeviceDetailActivity.ALIAS,device.vendorName);
+
         startActivity(intent);
     }
     @Override

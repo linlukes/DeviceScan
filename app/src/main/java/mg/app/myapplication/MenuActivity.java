@@ -29,13 +29,14 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        Button btn1 = findViewById(R.id.btn1);
-        Button btn2 = findViewById(R.id.btn2);
-        Button btn3 = findViewById(R.id.btn3);
-        Button btn4 = findViewById(R.id.btn4);
-// getPermissions
+        Button btnBluetooth = findViewById(R.id.btnBluetooth);
+        Button btnSSDP = findViewById(R.id.btnSSDP);
+        Button btnWifiP2p = findViewById(R.id.btnWifiP2p);
+        Button btnMDNS = findViewById(R.id.btnMDNS);
+
+        // getPermissions
         getPermissions();
-        btn1.setOnClickListener(new View.OnClickListener() {
+        btnBluetooth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Handle the click for Button 1
@@ -50,7 +51,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        btn2.setOnClickListener(new View.OnClickListener() {
+        btnSSDP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Handle the click for Button 2
@@ -58,7 +59,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        btn3.setOnClickListener(new View.OnClickListener() {
+        btnWifiP2p.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Handle the click for Button 3
@@ -71,7 +72,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        btn4.setOnClickListener(new View.OnClickListener() {
+        btnMDNS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Handle the click for Button 4

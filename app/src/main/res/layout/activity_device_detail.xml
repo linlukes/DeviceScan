@@ -58,14 +58,6 @@
             android:text="@string/model_nhardware" />
 
         <TextView
-            android:id="@+id/imeiTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:gravity="start"
-            android:text="@string/imei" />
-
-        <TextView
             android:id="@+id/ipAddressTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

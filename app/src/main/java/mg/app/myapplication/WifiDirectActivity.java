@@ -138,8 +138,11 @@ public class WifiDirectActivity extends AppCompatActivity {
                     } else if (wifiP2pInfo.groupFormed) {
                         // This device is a client
                         WifiP2pDevice device = (WifiP2pDevice) intent.getParcelableExtra(WifiP2pManager.EXTRA_WIFI_P2P_DEVICE);
-                        String deviceMacAddress = device.deviceAddress;
-                        Log.d(TAG, "Client MAC Address: " + deviceMacAddress);
+                        if (device != null) {
+                            String deviceMacAddress = device.deviceAddress;
+                            Log.d(TAG, "Client MAC Address: " + deviceMacAddress);
+                        }
+
                     }
                 }
             }

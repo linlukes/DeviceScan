@@ -17,7 +17,6 @@ public class DeviceDetailActivity extends AppCompatActivity {
     public static final String EXTRA_IP_ADDRESS = "ip_address";
     public static final String EXTRA_OS_INFO = "os_info";
     public static final String EXTRA_MODEL_HARDWARE = "model_hardware";
-    public static final String EXTRA_IMEI = "imei";
     public static final String ALIAS = " - ";
     public static final String UID = " - ";
 
@@ -35,7 +34,6 @@ public class DeviceDetailActivity extends AppCompatActivity {
         String ipAddress = intent.getStringExtra(EXTRA_IP_ADDRESS) == null ? "Unknown" :intent.getStringExtra(EXTRA_IP_ADDRESS);
         String osInfo = intent.getStringExtra(EXTRA_OS_INFO) == null ? "Unknown" :intent.getStringExtra(EXTRA_OS_INFO);
         String modelHardware = intent.getStringExtra(EXTRA_MODEL_HARDWARE) == null ? "Unknown" : intent.getStringExtra(EXTRA_MODEL_HARDWARE);
-        String imei = intent.getStringExtra(EXTRA_IMEI) == null ? "Unknown": intent.getStringExtra(EXTRA_IMEI) ;
         String uid = intent.getStringExtra(UID)== null ? " - " :intent.getStringExtra(UID);
         String alias = intent.getStringExtra(ALIAS) ==null ? " - " : intent.getStringExtra(ALIAS) ;
 
@@ -57,9 +55,6 @@ public class DeviceDetailActivity extends AppCompatActivity {
 
         TextView modelHardwareTextView = findViewById(R.id.modelHardwareTextView);
         modelHardwareTextView.setText(getString(R.string.model_nhardware)+" "+modelHardware);
-
-        TextView imeiTextView = findViewById(R.id.imeiTextView);
-        imeiTextView.setText(getString(R.string.imei)+" "+imei);
 
         TextView uidTextView = findViewById(R.id.uid);
         uidTextView.setText(getString(R.string.uid)+" "+uid);

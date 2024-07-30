@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothClass;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,7 +36,8 @@ public class BluetoothActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private ArrayAdapter<String> deviceListAdapter;
     private ArrayList<BluetoothDevice> bluetoothDevices;
-    private static final int MY_PERMISSIONS_REQUEST_ACCESS_SYSTEM_FILES = 1001; // Choose any unique value
+    private ArrayList<String> bluetoothDeviceTitles = new ArrayList<>();
+
     private EditText filterEditText;
     private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
 
@@ -79,7 +81,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
         // Initialize ListView and ArrayAdapter for displaying devices
         ListView deviceListView = findViewById(R.id.deviceListView);
-        deviceListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        deviceListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, bluetoothDeviceTitles);
         deviceListView.setAdapter(deviceListAdapter);
 
         deviceListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -173,8 +175,11 @@ public class BluetoothActivity extends AppCompatActivity {
         }
         // Start Bluetooth discovery
         if (bluetoothAdapter != null && bluetoothAdapter.isEnabled()) {
-            bluetoothAdapter.startDiscovery();
 
+            bluetoothDevices.clear();
+            bluetoothDeviceTitles.clear();
+
+            bluetoothAdapter.startDiscovery();
             Log.d("BroadcastReceiver", "startBluetoothDiscovery: " + bluetoothAdapter.isDiscovering());
          //   Toast.makeText(this, "Starting Bluetooth discovery.", Toast.LENGTH_SHORT).show();
         } else {
@@ -221,19 +226,20 @@ public class BluetoothActivity extends AppCompatActivity {
                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 bluetoothDevices.add(device);
                 // Add the name and address to the array adapter to show in the ListView
-                assert device != null;
-                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
+//                assert device != null;
+//                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+//                    // TODO: Consider calling
+//                    //    ActivityCompat#requestPermissions
+//                    // here to request the missing permissions, and then overriding
+//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                    //                                          int[] grantResults)
+//                    // to handle the case where the user grants the permission. See the documentation
+//                    // for ActivityCompat#requestPermissions for more details.
+//                    return;
+//                }
                 String deviceInfo = device.getName() + "\n" + device.getAddress();
-                deviceListAdapter.add(deviceInfo);
+                bluetoothDeviceTitles.add(deviceInfo);
+                deviceListAdapter.notifyDataSetChanged();
                 Toast.makeText(context, "Device found: " + deviceInfo, Toast.LENGTH_SHORT).show();
             }
         }
@@ -253,6 +259,48 @@ public class BluetoothActivity extends AppCompatActivity {
         intent.putExtra(DeviceDetailActivity.EXTRA_MAC_ADDRESS, bluetoothDevice.getAddress());
         intent.putExtra(DeviceDetailActivity.UID, Arrays.toString(bluetoothDevice.getUuids()));
         intent.putExtra(DeviceDetailActivity.ALIAS,bluetoothDevice.getAlias());
+
+        int deviceClass = bluetoothDevice.getBluetoothClass().getMajorDeviceClass();
+        // Check device class
+        switch (deviceClass) {
+            case BluetoothClass.Device.Major.PHONE:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Smart Phone");
+                break;
+            case BluetoothClass.Device.Major.COMPUTER:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Computer/TV");
+                break;
+            case BluetoothClass.Device.Major.AUDIO_VIDEO:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Audio/Video Device");
+                break;
+            case BluetoothClass.Device.Major.HEALTH:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Health Device");
+                break;
+            case BluetoothClass.Device.Major.WEARABLE:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Wearable Device");
+                break;
+            default:
+                intent.putExtra(DeviceDetailActivity.EXTRA_OS_INFO, "Unknown");
+                break;
+        }
+
+        int bluetoothDeviceType = bluetoothDevice.getType();
+        switch (bluetoothDeviceType) {
+            case BluetoothDevice.DEVICE_TYPE_CLASSIC:
+                intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, "Classic Bluetooth Device");
+                break;
+            case BluetoothDevice.DEVICE_TYPE_DUAL:
+                intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, "Dual Bluetooth Device");
+                break;
+            case BluetoothDevice.DEVICE_TYPE_LE:
+                intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, "Bluetooth Low Energy (LE) Device");
+                break;
+            case BluetoothDevice.DEVICE_TYPE_UNKNOWN:
+                intent.putExtra(DeviceDetailActivity.EXTRA_MODEL_HARDWARE, "Unknown Device");
+                break;
+            default:
+                break;
+        }
+
         startActivity(intent);
     }
 
